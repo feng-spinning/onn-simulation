@@ -352,6 +352,10 @@ Validation Loss: 0.1367, Validation Accuracy: 10.64%
 
 这个训练实在是太慢了…跑了两次都没跑完。效果也没有太好，说明在该非线性度下，我们已经达到了极致。
 
+示意图：（参照Zhou etc. 2021文章，reconfigurable ONN的灵感）
+
+![](./support_images/paralle)
+
 ```
 weights_large_dn1n_feature20.pt
 Epoch [4/5], Training Loss: 0.0208, Training Accuracy: 93.37%, 
