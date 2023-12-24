@@ -354,7 +354,7 @@ Validation Loss: 0.1367, Validation Accuracy: 10.64%
 
 示意图：（参照Zhou etc. 2021文章，reconfigurable ONN的灵感）
 
-![](./support_images/paralle)
+![](./support_images/paralle.png)
 
 ```
 weights_large_dn1n_feature20.pt
