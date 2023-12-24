@@ -44,11 +44,11 @@ literature 是本项目的参考文献，可以对照项目文档最后的 refer
 
 架构在下图中展现[<sup>1</sup>](#paper) ：
 
-![network](./network_fram.png)
+![network](./support_images/network_fram.png)
 
 最终实现的效果如下所示。
 
-| ![入射光场](./sample_ex.png) | ![成像光强](./intensity_0.png) |
+| ![入射光场](./support_images/sample_ex.png) | ![成像光强](./support_images/intensity_0.png) |
 |:---:|:---:|
 | 入射光场分布 | 成像光强分布 |
 
@@ -58,7 +58,7 @@ literature 是本项目的参考文献，可以对照项目文档最后的 refer
 
 `modulation_layer` 中的相位与振幅调制片是网络中唯一的learnable parameter, 它们控制着光的传播。其更新使用梯度下降法完成。最终的调制片示例如下：
 
-| ![相位调制](./optical_layers.7.phase_values.png) | ![振幅调制](./optical_layers.7.amplitude_values.png) |
+| ![相位调制](./support_images/optical_layers.7.phase_values.png) | ![振幅调制](./support_images/optical_layers.7.amplitude_values.png) |
 |:---:|:---:|
 | 相位调制 | 振幅调制 |
 
@@ -78,11 +78,11 @@ literature 是本项目的参考文献，可以对照项目文档最后的 refer
 
 本部分的相关代码在 `train.py`, `onn_am.py`, `layer_show.py`中。第一个代码是训练的核心代码，第二个代码只含有optical network，第三个代码展示了传播层和调制层的工作。
 
-作者自己写的 `OpticalNetwork` 类继承自 `torch.nn`。其实现可以单独参照 [onn_am.py](./onn_am.py)。类中有三种层：传播层 `propagation_layer`、调制层 `modulation_layer` 和成像层 `imaging_layer`。
+作者自己写的 `OpticalNetwork` 类继承自 `torch.nn`。其实现可以单独参照 [onn_am.py](./support_images/onn_am.py)。类中有三种层：传播层 `propagation_layer`、调制层 `modulation_layer` 和成像层 `imaging_layer`。
 
 `propagation_layer` 模拟光在自由空间中传播一段距离 z 前后的光场变化。作者采用菲涅尔传递函数 (Transmittive Funtion, TF) 法，参照 [Computational Fourier Optics](https://www.spiedigitallibrary.org/ebooks/TT/Computational-Fourier-Optics-A-MATLAB-Tutorial/eISBN-9780819482051/10.1117/3.858456?SSO=1) 的实现完成 `propTF()` 函数。经过一个传播层的结果如下所示。
 
-![diff](./ori_and_diff.png)
+![diff](./support_images/ori_and_diff.png)
 
 可以看到自由空间传播的卷积效果对图象造成了一定模糊。
 
@@ -92,7 +92,7 @@ literature 是本项目的参考文献，可以对照项目文档最后的 refer
 
 以下是进行随机相位调制之后再传播 $z$ 距离的光强分布。
 
-![mod](./disp_mo.png)
+![mod](./support_images/disp_mo.png)
 
 `imaging_layer` 完成成像和输出的任务。在计算总的光强后，`imaging_layer` 会对每一个方块中的光强大小进行统计并进行归一化，输出一个 dim = 10 的tensor，光强最大的即为预测结果。
 
@@ -104,7 +104,7 @@ literature 是本项目的参考文献，可以对照项目文档最后的 refer
 
 可以明显看到 `tensor[5]` 的数值最大，因而5就是我们的预测结果。
 
-![入射光场](./5.png) 
+![入射光场](./support_images/5.png) 
 
 需要特别注意的是：`imaging_layer` 中归一化操作不能就地完成，否则梯度计算会出错，需要新定义一个 `value_` 数组再return。
 
@@ -142,7 +142,7 @@ batch_size = 128
 
 预处理的相关代码在 `prepro.py`以及 `prepro_label.py` 中。其核心在于将图片重新采样，将其大小限制在 $(2w) \times (2w)$ 并嵌套在一个 $L \times L$ 的方形区域内。这样生成所有图片都是 $M \times M$ ，入射光场的形状得以统一。前后对比如下所示。
 
-![pre](./preprocessing.png)
+![pre](./support_images/preprocessing.png)
 
 label的预处理在于把一个数字扩展成一个 dim = 10 的数组。若label = $i$, 则生成单位向量 $e_{i+1}$。
 
@@ -202,7 +202,7 @@ Test Accuracy: 92.65%
 
 |大批量数据|小批量数据|
 |--|--|
-|![conf_am](./confusion_matrix.png)|![conf](./confusion_matrix_small.png)|
+|![conf_am](./support_images/confusion_matrix.png)|![conf](./support_images/confusion_matrix_small.png)|
 
 ### 结果展示
 
@@ -214,13 +214,13 @@ Test Accuracy: 92.65%
 [[0.1320, 0.1467, 0.2757, 0.6138, 0.3394, 0.4097, 0.3318, 0.1327, 0.2697, 0.1574]]
 ```
 
-![4](./3.png)
+![4](./support_images/3.png)
 
 
 ```
 [[0.0817, 0.1322, 0.1069, 0.3428, 0.1222, 0.1302, 0.0683, 0.0961, 0.8899, 0.0956]]
 ```
-![contra9](./8.png) 
+![contra9](./support_images/8.png) 
 
 + 若加入振幅调制：
 
@@ -228,13 +228,13 @@ Test Accuracy: 92.65%
 [[0.0813, 0.1146, 0.2029, 0.3622, 0.7564, 0.1387, 0.0544, 0.0728, 0.2183, 0.4007]]
 ```
 
-![am_9](./am_4.png)
+![am_9](./support_images/am_4.png)
 
 ```
 [[0.0088, 0.0123, 0.0308, 0.0656, 0.1741, 0.0357, 0.0339, 0.3735, 0.0609, 0.9047]]
 ```
 
-![7](./9.png)
+![7](./support_images/9.png)
 
 对比图在 `predict.py` 与 `predict_am.py` 中生成。
 
@@ -296,7 +296,7 @@ Test Accuracy: 93.40%
 
 |有振幅调制|无振幅调制|
 |--|--|
-|![conf_am](./confusion_matrix_am.png)|![conf](./confusion_matrix.png)|
+|![conf_am](./support_images/confusion_matrix_am.png)|![conf](./support_images/confusion_matrix.png)|
 
 ### 非线性激活
 
@@ -342,24 +342,18 @@ Validation Loss: 0.1367, Validation Accuracy: 10.64%
 
 该思路为改变z，使得z变成一个可以学习的参数。经过小批量数据上的测试，使用过大的学习率会导致z剧烈抖动，正确率在10%上下浮动，如左图；而学习率较小时z几乎不改变，如右图。因此这一改动被放弃。
 
-| ![20](./z_values1.png) | ![1](./z_values2.png) |
+| ![20](./support_images/z_values1.png) | ![1](./support_images/z_values2.png) |
 |:---:|:---:|
-| lr_for_z = 20 | lr_for_z = 1 |
+| lr = 20 | lr = 1 |
 
 ### 使用分布式的计算方式
 
-借鉴卷积神经网络共享权重和偏置的方式，结合到本项目中来的实现方式是增加。。。。
-新数据：
+借鉴卷积神经网络共享权重和偏置的方式，结合到本项目中来的实现方式是增加几个平行的连接层。详情参见`large_dn1n_final.py`
 
-large_dn1n_final.py
+这个训练实在是太慢了…跑了两次都没跑完。效果也没有太好，说明在该非线性度下，我们已经达到了极致。
+
 ```
 weights_large_dn1n_feature20.pt
-Epoch [1/5], Training Loss: 0.0268, Training Accuracy: 92.61%, 
-Validation Loss: 0.0207, Validation Accuracy: 93.35%
-Epoch [2/5], Training Loss: 0.0219, Training Accuracy: 92.71%, 
-Validation Loss: 0.0202, Validation Accuracy: 92.94%
-Epoch [3/5], Training Loss: 0.0211, Training Accuracy: 93.22%, 
-Validation Loss: 0.0195, Validation Accuracy: 93.47%
 Epoch [4/5], Training Loss: 0.0208, Training Accuracy: 93.37%, 
 Validation Loss: 0.0191, Validation Accuracy: 94.05%
 Epoch [5/5], Training Loss: 0.0205, Training Accuracy: 93.73%, 
@@ -367,176 +361,22 @@ Validation Loss: 0.0187, Validation Accuracy: 93.91%
 Test Accuracy: 93.29%
 ```
 
-```
 
-class propagation_layer(nn.Module):
-    def __init__(self, L, lmbda, z):
-        super(propagation_layer, self).__init__()
-        self.L = L
-        self.lmbda = lmbda
-        self.z = z
-    
-    def forward(self, u1):
-        M, N = u1.shape[-2:]
-        dx = self.L / M
-        k = 2 * pi_tensor / self.lmbda
+结果：
+|                   | validation set | test set |
+| ----------------- | -------------- | -------- |
+| 2 epoches + crelu | 96.95%         | 96.91%   |
+| 5 epoches         | 93.91%         | 93.29%   |
 
-        fx = torch.linspace(-1 / (2 * dx), 1 / (2 * dx) - 1 / self.L, M, device=u1.device, dtype=u1.dtype).to(device)
-        FX, FY = torch.meshgrid(fx, fx)
-        
-        H = torch.exp(-j * pi_tensor * self.lmbda * self.z * (FX**2 + FY**2)).to(device) * torch.exp(j * k * self.z).to(device)
-        H = torch.fft.fftshift(H, dim=(-2,-1))
-        U1 = torch.fft.fft2(torch.fft.fftshift(u1, dim=(-2,-1))).to(device)
-        U2 = H * U1
-        u2 = torch.fft.ifftshift(torch.fft.ifft2(U2), dim=(-2,-1))
-        return u2
+### 更换一种传播的仿真方法
 
-class modulation_layer(nn.Module):
-    def __init__(self, M, N):
-        super(modulation_layer, self).__init__()
-        # Initialize phase values to zeros, but they will be updated during training
-        self.phase_values = nn.Parameter(torch.zeros((M, N)))
-        nn.init.uniform_(self.phase_values, a = 0, b = 1)
-            
-    def forward(self, input_tensor):
-        # Create the complex modulation matrix
-        modulation_matrix = torch.exp(j * 2 * pi_tensor * self.phase_values)
-        # Modulate the input tensor
-        # print(input_tensor.shape)
-        modulated_tensor = input_tensor * modulation_matrix
-        # print(modulated_tensor.shape)
-        return modulated_tensor
+使用远距离传输修正的`propagation_ASM.py`中的方法，训练代码在`provided_large.py`中。效果没有显著差别。
 
-class imaging_layer(nn.Module):
-    def __init__(self):
-        super(imaging_layer, self).__init__()
-        
-    def forward(self, u):
-        # Calculate the intensity
-        intensity = torch.abs(u)**2
+### 非相干传播
 
-        values = torch.zeros(u.size(0), 10, device=u.device, dtype=intensity.dtype)  # Batch x 10 tensor
+预测在`predict_inco.py`中，其中inco代表incoherent，非相干。
 
-        value_ = torch.zeros(u.size(0), 10, device=u.device, dtype=intensity.dtype)
-        for i in range(10):
-            values[:, i] = count_pixel(intensity, start_row[i], start_col[i], square_size, square_size)
-        for i in range(u.size(0)):
-            values_temp = values[i, :] / norm(values[i, :])
-            # to avoid in-place operation
-            value_[i, :] = values_temp
-        return value_
-
-class DN1N(nn.Module):
-    def __init__(self, num_of_features, M, L, lmbda, z):
-        super(DN1N, self).__init__()
-        self.num_of_features = num_of_features
-        # 5 Propagation and Modulation layers interleaved
-        self.prop_mod1 = nn.ModuleList([nn.Sequential(
-            propagation_layer(L, lmbda, z),
-            modulation_layer(M, M)
-        ) for _ in range(num_of_features)])
-        self.linear_weights1 = nn.Parameter(torch.randn(num_of_features, num_of_features, device=device, dtype=torch.complex128))
-                
-        self.prop_mod2 = nn.ModuleList([nn.Sequential(
-            propagation_layer(L, lmbda, z),
-            modulation_layer(M, M)
-        ) for _ in range(num_of_features)])
-        self.linear_weights2 = nn.Parameter(torch.randn(num_of_features, num_of_features, device=device, dtype=torch.complex128))
-       
-        self.prop_mod3 = nn.ModuleList([nn.Sequential(
-            propagation_layer(L, lmbda, z),
-            modulation_layer(M, M)
-        ) for _ in range(num_of_features)])
-        self.linear_weights3 = nn.Parameter(torch.randn(num_of_features, 1, device=device, dtype=torch.complex128))
-        
-        self.final_layer = nn.Sequential(
-            propagation_layer(L, lmbda, z),
-            modulation_layer(M, M),
-            imaging_layer()
-        )
-        
-    def forward(self, x):
-        # First layer
-        out1 = []
-        for i in range(self.num_of_features):
-            out1.append(self.prop_mod1[i](x))
-        tempo = torch.stack(out1,dim=3)
-        combined_out1 = torch.matmul(tempo,self.linear_weights1)
-
-        # Second layer
-        out2 = []
-        for i in range(self.num_of_features):
-            out2.append(self.prop_mod2[i](combined_out1[:,:,:,i]))
-        temp = torch.stack(out2,dim=3)
-        combined_out2 = torch.matmul(temp,self.linear_weights2)
-        
-        out3 = []
-        for i in range(self.num_of_features):
-            out3.append(self.prop_mod3[i](combined_out2[:,:,:,i]))
-        temp = torch.stack(out3,dim=3)
-        combined_out3 = torch.matmul(temp,self.linear_weights3)
-        combined_out3 = combined_out3.squeeze(3)
-        # Final layer
-        final_out = self.final_layer(combined_out3)
-        
-        return final_out
-
-######### Hyperparameters
-######### Initialize network, loss, and optimizer
-model = DN1N(20, M, L, lmbda, z).to(device)
-loss_function = nn.MSELoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
-```
-
-
-### 更换最开始的模拟方式
-
-
-```
-Using cuda:2 device
-successfully loaded
-Epoch [1/20], Training Loss: 0.0389, Training Accuracy: 88.34%, 
-Validation Loss: 0.0255, Validation Accuracy: 89.21%
-Epoch [2/20], Training Loss: 0.0262, Training Accuracy: 89.95%, 
-Validation Loss: 0.0225, Validation Accuracy: 91.11%
-Epoch [3/20], Training Loss: 0.0248, Training Accuracy: 91.20%, 
-Validation Loss: 0.0218, Validation Accuracy: 92.08%
-Epoch [4/20], Training Loss: 0.0242, Training Accuracy: 90.97%, 
-Validation Loss: 0.0216, Validation Accuracy: 91.68%
-Epoch [5/20], Training Loss: 0.0236, Training Accuracy: 90.99%, 
-Validation Loss: 0.0213, Validation Accuracy: 91.88%
-Epoch [6/20], Training Loss: 0.0235, Training Accuracy: 91.67%, 
-Validation Loss: 0.0204, Validation Accuracy: 92.54%
-Epoch [7/20], Training Loss: 0.0232, Training Accuracy: 91.73%, 
-Validation Loss: 0.0208, Validation Accuracy: 92.41%
-Epoch [8/20], Training Loss: 0.0231, Training Accuracy: 91.36%, 
-Validation Loss: 0.0210, Validation Accuracy: 92.04%
-Epoch [9/20], Training Loss: 0.0231, Training Accuracy: 91.88%, 
-Validation Loss: 0.0200, Validation Accuracy: 92.48%
-Epoch [10/20], Training Loss: 0.0228, Training Accuracy: 91.68%, 
-Validation Loss: 0.0208, Validation Accuracy: 92.53%
-Epoch [11/20], Training Loss: 0.0228, Training Accuracy: 92.01%, 
-Validation Loss: 0.0204, Validation Accuracy: 92.79%
-Epoch [12/20], Training Loss: 0.0227, Training Accuracy: 91.28%, 
-Validation Loss: 0.0216, Validation Accuracy: 91.80%
-Epoch [13/20], Training Loss: 0.0227, Training Accuracy: 91.39%, 
-Validation Loss: 0.0210, Validation Accuracy: 92.01%
-Epoch [14/20], Training Loss: 0.0226, Training Accuracy: 91.86%, 
-Validation Loss: 0.0206, Validation Accuracy: 92.56%
-Epoch [15/20], Training Loss: 0.0226, Training Accuracy: 91.66%, 
-Validation Loss: 0.0201, Validation Accuracy: 92.31%
-Epoch [16/20], Training Loss: 0.0225, Training Accuracy: 90.93%, 
-Validation Loss: 0.0210, Validation Accuracy: 91.89%
-Epoch [17/20], Training Loss: 0.0226, Training Accuracy: 92.01%, 
-Validation Loss: 0.0204, Validation Accuracy: 92.72%
-Epoch [18/20], Training Loss: 0.0224, Training Accuracy: 91.69%, 
-Validation Loss: 0.0210, Validation Accuracy: 92.21%
-Epoch [19/20], Training Loss: 0.0224, Training Accuracy: 91.53%, 
-Validation Loss: 0.0205, Validation Accuracy: 92.44%
-Epoch [20/20], Training Loss: 0.0223, Training Accuracy: 91.83%, 
-Validation Loss: 0.0202, Validation Accuracy: 92.55%
-Test Accuracy: 91.71%
-```
+训练在`large_inco.py`中。权重也都公开了。效果上，非相干最好之后58%左右。根据林星老师的看法，这是因为非相干光没有负值运算。
 
 
 ## 参数的选择依据
@@ -553,7 +393,7 @@ z = 100         # the propagation distance in free space
 
 参数 $w$ 事先确定，因袭 Computational 书中的选法，而 $L$ 的选择根据 Nyquist law 决定。要模拟现实光学条件，我们要对光场进行合适的采样。采样需要的范围要大于实际光场范围，其扩大的比值设为Q。菲涅尔数 $N_F = w ^2 / (z \times \lambda)$ 我们结合 Goodman: Introduction to Fourier Optics 中的图进行采样，选择Q略小于2。
 
-![sample](./sample.jpg)
+![sample](./support_images/sample.jpg)
 
 这边我们的 $M$ 参数的选择有一定瑕疵，如果选的较大一些应该可以更大程度减少混叠 (aliasing) 效果应该更好。但考虑到训练成本、预处理成本均正比于 $M ^ 2$，这里我们使用 $M = 250$ 进行仿真，属于效率与性能的折衷之选。
 
