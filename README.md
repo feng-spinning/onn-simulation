@@ -15,7 +15,7 @@ train 文件夹用于训练，predict 用于预测。
 
 本文档中详述了原理及实现过程，建议先阅读项目文档再点进 train 与 predict 文件夹。项目文档中涉及的源代码主要蕴含在 train 文件夹中。
 
-train 与 predict 文件夹内均有 README.txt 文件，建议查看后运行文件。
+train 与 predict 文件夹内均有 README.txt 文件，建议查看后运行文件。运行train之前请务必查看README.txt。请务必查看，请务必查看，请务必查看。
 
 literature 是本项目的参考文献，可以对照项目文档最后的 reference 查看。
 
