@@ -8,9 +8,9 @@ torch 2.0.1+cpu（训练使用的是cuda，预测cpu or cuda均可）
 
 numpy 1.23.5，更高版本也可兼容。
 
-step2：预处理（可选）
+step2：预处理
 
-使用prepro.py以及prepro_label.py，安装文件提示进行更改，保存npy文件即可完成。预处理应该生成6个npy文件。
+使用上一级目录下的prepro.py直接得到处理过后的数据
 
 step3：训练
 
