@@ -26,7 +26,7 @@ literature 是本项目的参考文献，可以对照项目文档最后的 refer
 
 本项目使用 `Python + Pytorch` 对全光神经网络进行仿真，并应用于MNIST手写数字识别中，通过调参取得了 $93.5\%$ 的正确率，高于原始论文 $91.75\%$ 的结果。本项目继续探索了对模型架构的改进方法，在引入相关改进后取得了 $96.5\%$ 的仿真正确率。
 
-本项目主要参考论文 [All-optical machine learning using diffractive deep neural networks](https://www.science.org/doi/10.1126/science.aat8084)。预处理及训练代码请参考 source 文件夹中的内容，预测请参考 model 文件夹中的内容。
+本项目主要参考论文 [All-optical machine learning using diffractive deep neural networks](https://www.science.org/doi/10.1126/science.aat8084)。预处理及训练代码请参考 train 文件夹中的内容，预测请参考 predict 文件夹中的内容。
 
 ## 基本原理
 
@@ -66,9 +66,9 @@ literature 是本项目的参考文献，可以对照项目文档最后的 refer
 
 软件环境: `torch '2.0.1+cu117' + numpy '1.23.5'`
 
-硬件环境: `NVIDIA GeForce RTX 3090`（精仪科协服务器）
+硬件环境: `NVIDIA GeForce RTX 3090`单卡。作者没有实现多卡联跑，有实现的同学特别欢迎联系作者！
 
-数据集: MNIST 手写数字识别
+数据集: MNIST 手写数字识别。
 
 ## 代码实现
 
