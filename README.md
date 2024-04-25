@@ -49,11 +49,11 @@ Initially, a beam of coherent light is directed into a hollowed-out digit to obt
 
 The architecture is displayed in the following diagram[^1](#paper):
 
-![network](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/network_fram.png)
+![network](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/network_fram.png)
 
 The final effect is shown below.
 
-| ![Incident light field](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/sample_ex.png) | ![Imaging light intensity](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/intensity_0.png) |
+| ![Incident light field](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/sample_ex.png) | ![Imaging light intensity](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/intensity_0.png) |
 |:---:|:---:|
 | Incident light field distribution | Imaging light intensity distribution |
 
@@ -63,7 +63,7 @@ It can be seen that the light intensity in the first square is significantly hig
 
 The phase and amplitude modulation pieces in the `modulation_layer` are the only learnable parameters in the network, controlling light propagation. Their update is completed using the gradient descent method. The final modulation pieces are shown below:
 
-| ![Phase modulation](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/optical_layers.7.phase_values.png) | ![Amplitude modulation](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/optical_layers.7.amplitude_values.png) |
+| ![Phase modulation](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/optical_layers.7.phase_values.png) | ![Amplitude modulation](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/optical_layers.7.amplitude_values.png) |
 |:---:|:---:|
 | Phase modulation | Amplitude modulation |
 
@@ -83,11 +83,11 @@ Dataset: MNIST handwritten digit recognition
 
 Related code is in `train.py`, `onn_am.py`, and `layer_show.py`. The first code is the core training code, the second code only contains the optical network, and the third code displays the work of the propagation and modulation layers.
 
-The author's own `OpticalNetwork` class inherits from `torch.nn`. Its implementation can be referred to separately in [onn_am.py](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/onn_am.py). The class contains three layers: the propagation layer `propagation_layer`, the modulation layer `modulation_layer`, and the imaging layer `imaging_layer`.
+The author's own `OpticalNetwork` class inherits from `torch.nn`. Its implementation can be referred to separately in [onn_am.py](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/onn_am.py). The class contains three layers: the propagation layer `propagation_layer`, the modulation layer `modulation_layer`, and the imaging layer `imaging_layer`.
 
 `propagation_layer` simulates the change in the light field before and after light propagates a certain distance z in free space. The author uses the Fresnel transfer function (Transmittive Function, TF) method, referring to [Computational Fourier Optics](https://www.spiedigitallibrary.org/ebooks/TT/Computational-Fourier-Optics-A-MATLAB-Tutorial/eISBN-9780819482051/10.1117/3.858456?SSO=1) to complete the `propTF()` function. The result after a propagation layer is shown below.
 
-![diff](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/ori_and_diff.png)
+![diff](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/ori_and_diff.png)
 
 It can be seen that the convolution effect of free space propagation causes some blurring of the image.
 
@@ -97,7 +97,7 @@ The Fresnel transfer function method can retain second-order small quantities un
 
 Below is the light intensity distribution after random phase modulation and propagation over distance $z$.
 
-![mod](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/disp_mo.png)
+![mod](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/disp_mo.png)
 
 `imaging_layer` completes the tasks of imaging and output. After calculating the total light intensity, the `imaging_layer` will statistically analyze the light intensity in each square and normalize it, outputting a tensor of dim = 10, with the highest light intensity being the prediction result.
 
@@ -108,7 +108,7 @@ For example, in the lower right image, the corresponding tensor is:
 
 It is evident that `tensor[5]` has the largest value, thus 5 is our prediction result.
 
-![Incident light field](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/5.png)
+![Incident light field](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/5.png)
 
 It is particularly important to note: the normalization operation in `imaging_layer` cannot be completed in-place, otherwise gradient calculation will be erroneous. A new `value_` array must be defined and then returned.
 
@@ -144,7 +144,7 @@ batch_size = 128
 
 The related code is in `prepro.py` and `prepro_label.py`. The core involves resizing the images to $(2w) \times (2w)$ and embedding them in an $L \times L$ square area. This generates all images as $M \times M$, unifying the shape of the incident light field. The before and after comparison is shown below.
 
-![pre](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/preprocessing.png)
+![pre](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/preprocessing.png)
 
 Label preprocessing involves expanding a number into a dim = 10 array. If label = $i$, then generate the unit vector $e_{i+1}$.
 
@@ -207,7 +207,7 @@ We list the `confusion_matrix` for both large batch data and small batch data fo
 
 |Large batch data|Small batch data|
 |--|--|
-|![conf_am](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/confusion_matrix.png)|![conf](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/confusion_matrix_small.png)|
+|![conf_am](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/confusion_matrix.png)|![conf](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/confusion_matrix_small.png)|
 
 ### Result Display
 
@@ -220,13 +220,13 @@ We demonstrate the model's prediction performance by listing the normalized outp
 ```
 
 
-![4](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/3.png)
+![4](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/3.png)
 
 ```
 [[0.0817, 0.1322, 0.1069, 0.3428, 0.1222, 0.1302, 0.0683, 0.0961, 0.8899, 0.0956]]
 ```
 
-![contra9](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/8.png) 
+![contra9](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/8.png) 
 
 + With amplitude modulation:
 
@@ -235,12 +235,12 @@ We demonstrate the model's prediction performance by listing the normalized outp
 ```
 
 
-![am_9](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/am_4.png)
+![am_9](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/am_4.png)
 
 [[0.0088, 0.0123, 0.0308, 0.0656, 0.1741, 0.0357, 0.0339, 0.3735, 0.0609, 0.9047]]
 
 
-![7](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/9.png)
+![7](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/9.png)
 
 Comparison images are generated in `predict.py` and `predict_am.py`.
 
@@ -303,7 +303,7 @@ Test Accuracy: 93.40%
 
 |With amplitude modulation|Without amplitude modulation|
 |--|--|
-|![conf_am](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/confusion_matrix_am.png)|![conf](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/confusion_matrix.png)|
+|![conf_am](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/confusion_matrix_am.png)|![conf](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/confusion_matrix.png)|
 
 ### Nonlinear Activation
 
@@ -342,7 +342,7 @@ Related code is in `changez.py`.
 
 This approach changes z, making z a learnable parameter. Testing on small batch data showed that using a high learning rate caused z to fluctuate dramatically, with accuracy fluctuating around 10%, as shown in the left image; whereas a low learning rate almost does not change z, as shown in the right image. Therefore, this modification was abandoned.
 
-| ![20](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/z_values1.png) | ![1](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/z_values2.png) |
+| ![20](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/z_values1.png) | ![1](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/z_values2.png) |
 |:---:|:---:|
 | lr = 20 | lr = 1 |
 
@@ -354,7 +354,7 @@ This training is incredibly slow... It didn't finish after two runs. The effect 
 
 Illustration: (Referencing the Zhou etc. 2021 article, inspiration from reconfigurable ONN)
 
-![](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/paralle.png)
+![](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/paralle.png)
 
 ```
 weights_large_dn1n_feature20.pt
@@ -399,7 +399,7 @@ z = 100 # the propagation distance in free space
 
 Parameter $w$ was predetermined, following the method in the Computational book, while the selection of $L$ is based on the Nyquist law. To simulate real optical conditions, we need to sample the light field properly. The required sampling range should be larger than the actual light field range, with the expansion ratio set as Q. The Fresnel number $N_F = w ^2 / (z \times \lambda)$ we combine with the diagram in Goodman: Introduction to Fourier Optics to choose Q slightly less than 2.
 
-![sample](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/sample.jpg)
+![sample](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/sample.jpg)
 
 Our selection of the $M$ parameter has some flaws; if a larger value was chosen, it might reduce aliasing more effectively. However, considering the training cost and preprocessing cost are proportional to $M ^ 2$, we use $M = 250$ for simulation, which is a compromise between efficiency and performance.
 
@@ -481,11 +481,11 @@ literature 是本项目的参考文献，可以对照项目文档最后的 refer
 
 架构在下图中展现[<sup>1</sup>](#paper) ：
 
-![network](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/network_fram.png)
+![network](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/network_fram.png)
 
 最终实现的效果如下所示。
 
-| ![入射光场](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/sample_ex.png) | ![成像光强](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/intensity_0.png) |
+| ![入射光场](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/sample_ex.png) | ![成像光强](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/intensity_0.png) |
 |:---:|:---:|
 | 入射光场分布 | 成像光强分布 |
 
@@ -495,7 +495,7 @@ literature 是本项目的参考文献，可以对照项目文档最后的 refer
 
 `modulation_layer` 中的相位与振幅调制片是网络中唯一的learnable parameter, 它们控制着光的传播。其更新使用梯度下降法完成。最终的调制片示例如下：
 
-| ![相位调制](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/optical_layers.7.phase_values.png) | ![振幅调制](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/optical_layers.7.amplitude_values.png) |
+| ![相位调制](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/optical_layers.7.phase_values.png) | ![振幅调制](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/optical_layers.7.amplitude_values.png) |
 |:---:|:---:|
 | 相位调制 | 振幅调制 |
 
@@ -515,11 +515,11 @@ literature 是本项目的参考文献，可以对照项目文档最后的 refer
 
 本部分的相关代码在 `train.py`, `onn_am.py`, `layer_show.py`中。第一个代码是训练的核心代码，第二个代码只含有optical network，第三个代码展示了传播层和调制层的工作。
 
-作者自己写的 `OpticalNetwork` 类继承自 `torch.nn`。其实现可以单独参照 [onn_am.py](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/onn_am.py)。类中有三种层：传播层 `propagation_layer`、调制层 `modulation_layer` 和成像层 `imaging_layer`。
+作者自己写的 `OpticalNetwork` 类继承自 `torch.nn`。其实现可以单独参照 [onn_am.py](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/onn_am.py)。类中有三种层：传播层 `propagation_layer`、调制层 `modulation_layer` 和成像层 `imaging_layer`。
 
 `propagation_layer` 模拟光在自由空间中传播一段距离 z 前后的光场变化。作者采用菲涅尔传递函数 (Transmittive Funtion, TF) 法，参照 [Computational Fourier Optics](https://www.spiedigitallibrary.org/ebooks/TT/Computational-Fourier-Optics-A-MATLAB-Tutorial/eISBN-9780819482051/10.1117/3.858456?SSO=1) 的实现完成 `propTF()` 函数。经过一个传播层的结果如下所示。
 
-![diff](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/ori_and_diff.png)
+![diff](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/ori_and_diff.png)
 
 可以看到自由空间传播的卷积效果对图象造成了一定模糊。
 
@@ -529,7 +529,7 @@ literature 是本项目的参考文献，可以对照项目文档最后的 refer
 
 以下是进行随机相位调制之后再传播 $z$ 距离的光强分布。
 
-![mod](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/disp_mo.png)
+![mod](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/disp_mo.png)
 
 `imaging_layer` 完成成像和输出的任务。在计算总的光强后，`imaging_layer` 会对每一个方块中的光强大小进行统计并进行归一化，输出一个 dim = 10 的tensor，光强最大的即为预测结果。
 
@@ -541,7 +541,7 @@ literature 是本项目的参考文献，可以对照项目文档最后的 refer
 
 可以明显看到 `tensor[5]` 的数值最大，因而5就是我们的预测结果。
 
-![入射光场](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/5.png) 
+![入射光场](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/5.png) 
 
 需要特别注意的是：`imaging_layer` 中归一化操作不能就地完成，否则梯度计算会出错，需要新定义一个 `value_` 数组再return。
 
@@ -579,7 +579,7 @@ batch_size = 128
 
 预处理的相关代码在 `prepro.py`以及 `prepro_label.py` 中。其核心在于将图片重新采样，将其大小限制在 $(2w) \times (2w)$ 并嵌套在一个 $L \times L$ 的方形区域内。这样生成所有图片都是 $M \times M$ ，入射光场的形状得以统一。前后对比如下所示。
 
-![pre](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/preprocessing.png)
+![pre](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/preprocessing.png)
 
 label的预处理在于把一个数字扩展成一个 dim = 10 的数组。若label = $i$, 则生成单位向量 $e_{i+1}$。
 
@@ -639,7 +639,7 @@ Test Accuracy: 92.65%
 
 |大批量数据|小批量数据|
 |--|--|
-|![conf_am](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/confusion_matrix.png)|![conf](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/confusion_matrix_small.png)|
+|![conf_am](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/confusion_matrix.png)|![conf](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/confusion_matrix_small.png)|
 
 ### 结果展示
 
@@ -651,13 +651,13 @@ Test Accuracy: 92.65%
 [[0.1320, 0.1467, 0.2757, 0.6138, 0.3394, 0.4097, 0.3318, 0.1327, 0.2697, 0.1574]]
 ```
 
-![4](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/3.png)
+![4](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/3.png)
 
 
 ```
 [[0.0817, 0.1322, 0.1069, 0.3428, 0.1222, 0.1302, 0.0683, 0.0961, 0.8899, 0.0956]]
 ```
-![contra9](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/8.png) 
+![contra9](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/8.png) 
 
 + 若加入振幅调制：
 
@@ -665,13 +665,13 @@ Test Accuracy: 92.65%
 [[0.0813, 0.1146, 0.2029, 0.3622, 0.7564, 0.1387, 0.0544, 0.0728, 0.2183, 0.4007]]
 ```
 
-![am_9](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/am_4.png)
+![am_9](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/am_4.png)
 
 ```
 [[0.0088, 0.0123, 0.0308, 0.0656, 0.1741, 0.0357, 0.0339, 0.3735, 0.0609, 0.9047]]
 ```
 
-![7](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/9.png)
+![7](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/9.png)
 
 对比图在 `predict.py` 与 `predict_am.py` 中生成。
 
@@ -733,7 +733,7 @@ Test Accuracy: 93.40%
 
 |有振幅调制|无振幅调制|
 |--|--|
-|![conf_am](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/confusion_matrix_am.png)|![conf](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/confusion_matrix.png)|
+|![conf_am](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/confusion_matrix_am.png)|![conf](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/confusion_matrix.png)|
 
 ### 非线性激活
 
@@ -779,7 +779,7 @@ Validation Loss: 0.1367, Validation Accuracy: 10.64%
 
 该思路为改变z，使得z变成一个可以学习的参数。经过小批量数据上的测试，使用过大的学习率会导致z剧烈抖动，正确率在10%上下浮动，如左图；而学习率较小时z几乎不改变，如右图。因此这一改动被放弃。
 
-| ![20](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/z_values1.png) | ![1](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/z_values2.png) |
+| ![20](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/z_values1.png) | ![1](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/z_values2.png) |
 |:---:|:---:|
 | lr = 20 | lr = 1 |
 
@@ -791,7 +791,7 @@ Validation Loss: 0.1367, Validation Accuracy: 10.64%
 
 示意图：（参照Zhou etc. 2021文章，reconfigurable ONN的灵感）
 
-![](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/paralle.png)
+![](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/paralle.png)
 
 ```
 weights_large_dn1n_feature20.pt
@@ -834,7 +834,7 @@ z = 100         # the propagation distance in free space
 
 参数 $w$ 事先确定，因袭 Computational 书中的选法，而 $L$ 的选择根据 Nyquist law 决定。要模拟现实光学条件，我们要对光场进行合适的采样。采样需要的范围要大于实际光场范围，其扩大的比值设为Q。菲涅尔数 $N_F = w ^2 / (z \times \lambda)$ 我们结合 Goodman: Introduction to Fourier Optics 中的图进行采样，选择Q略小于2。
 
-![sample](https://github.com/feng-spinning/onn-simulation/tree/main/support_images/sample.jpg)
+![sample](https://github.com/feng-spinning/onn-simulation/blob/main/support_images/sample.jpg)
 
 这边我们的 $M$ 参数的选择有一定瑕疵，如果选的较大一些应该可以更大程度减少混叠 (aliasing) 效果应该更好。但考虑到训练成本、预处理成本均正比于 $M ^ 2$，这里我们使用 $M = 250$ 进行仿真，属于效率与性能的折衷之选。
 
