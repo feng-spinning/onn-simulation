@@ -66,9 +66,9 @@ literature 是本项目的参考文献，可以对照项目文档最后的 refer
 
 软件环境: `torch '2.0.1+cu117' + numpy '1.23.5'`
 
-硬件环境: `NVIDIA GeForce RTX 3090`（精仪科协服务器）
+硬件环境: `NVIDIA GeForce RTX 3090`单卡。作者没有实现多卡联跑，有实现的同学特别欢迎联系作者！
 
-数据集: MNIST 手写数字识别
+数据集: MNIST 手写数字识别。
 
 ## 代码实现
 
