@@ -1,4 +1,4 @@
-# All-Optical Neural Network Simulation
+# All-Optical Neural Network Simulation | D2NN 仿真
 
 Author: Feng Zijia 冯子嘉
 
