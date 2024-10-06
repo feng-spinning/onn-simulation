@@ -1,9 +1,7 @@
 # All-Optical Neural Network Simulation | D2NN 仿真
 
-Author: Feng Zijia 冯子嘉
-
-Date: 2023.8.13
-
+Author: Feng Zijia 冯子嘉 | 
+Date: 2023.8.13 | 
 Updated Lastly: 2024.5.13
 
 Please select the language you want to read:
